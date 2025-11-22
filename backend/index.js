@@ -1,9 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import multer from 'multer';
 import { registerValidator, loginValidation, postCreateValidation } from './validations.js';
-import { checkAuth } from './utils/checkAuth.js';
-import * as UserController from './controllers/UserController.js';
-import * as PostController from './controllers/postController.js';
+import controllers from './controllers/index.js';
+import { checkAuth, handleValidationErrors } from './utils/index.js';
 
 const uri = "mongodb://localhost:27017/blogDB";
 
@@ -13,21 +13,41 @@ mongoose.connect(uri)
 
 const app = express();
 
+const storage = multer.diskStorage({
+    destination: (_, __, cb) => {
+        cb(null, 'uploads');
+    },
+    filename: (_, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({ storage });
+
 app.use(express.json());
+app.use('/uploads', express.static('uploads'))
 
 app.get('/', (_, res)=> {
     res.send('Hello World!');
 });
 
-app.post('/auth/login', loginValidation, UserController.login);
-app.post('/auth/register', registerValidator, UserController.register);
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.post('/auth/login', loginValidation, handleValidationErrors, controllers.UserController.login);
+app.post('/auth/register', registerValidator, handleValidationErrors, controllers.UserController.register);
+app.get('/auth/me', checkAuth, controllers.UserController.getMe);
 
-app.post('/posts/create', checkAuth, postCreateValidation, PostController.createPost);
-app.get('/posts', checkAuth, PostController.getAll);
-app.get('/posts/:id', checkAuth, PostController.getById);
-app.delete('/posts/:id', checkAuth, PostController.deletePost);
-app.put('/posts/:id', checkAuth, PostController.updatePost);
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+    res.json({
+        success: true,
+        url: `/uploads/${req.file.originalname}`,
+
+    });
+});
+
+app.get('/posts', controllers.PostController.getAll);
+app.get('/posts/:id', controllers.PostController.getById);
+app.post('/posts/create', checkAuth, postCreateValidation, handleValidationErrors, controllers.PostController.createPost);
+app.delete('/posts/:id', checkAuth, controllers.PostController.deletePost);
+app.put('/posts/:id', checkAuth, controllers.PostController.updatePost);
 
 app.listen(4444, (err) => {
     if(err) {
