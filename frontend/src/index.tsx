@@ -1,23 +1,30 @@
+import CssBaseline from '@mui/material/CssBaseline';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router';
-import CssBaseline from '@mui/material/CssBaseline';
+
+import App from './App';
+
 import "./index.scss";
+import store from './redux';
 import { theme } from "./theme";
+
 import { ThemeProvider } from '@mui/material';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  <React.StrictMode>
-    <CssBaseline />
-    <ThemeProvider theme={ theme }>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>
+    <>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+            <BrowserRouter>
+                <Provider store={store}>
+                    <App />
+                </Provider>
+            </BrowserRouter>
+        </ThemeProvider>
+    </>
 );

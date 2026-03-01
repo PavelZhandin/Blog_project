@@ -1,5 +1,6 @@
 import { Skeleton, Stack } from "@mui/material";
 import { JSX } from "react";
+
 import styles from "./index.module.scss";
 
 export function PostSkeleton (): JSX.Element {
@@ -16,20 +17,20 @@ export function PostSkeleton (): JSX.Element {
                             style={{ marginRight: 10 }}
                         />
                         <div className={styles.skeletonUserDetails}>
-                        <Skeleton variant="text" width={60} height={20} />
-                        <Skeleton variant="text" width={100} height={15} />
+                            <Skeleton variant="text" width={60} height={20} />
+                            <Skeleton variant="text" width={100} height={15} />
                         </div>
                     </div>
-                <div className={styles.skeletonInfo}>
-                    <Skeleton variant="text" width="80%" height={45} />
-                    <div className={styles.skeletonTags}>
-                    <Skeleton variant="text" width={40} height={30} />
-                    <Skeleton variant="text" width={40} height={30} />
-                    <Skeleton variant="text" width={40} height={30} />
+                    <div className={styles.skeletonInfo}>
+                        <Skeleton variant="text" width="80%" height={45} />
+                        <div className={styles.skeletonTags}>
+                            <Skeleton variant="text" width={40} height={30} />
+                            <Skeleton variant="text" width={40} height={30} />
+                            <Skeleton variant="text" width={40} height={30} />
+                        </div>
                     </div>
                 </div>
-                </div>
             </Stack>
-    </div>
+        </div>
     );
 }

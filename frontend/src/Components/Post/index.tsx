@@ -1,48 +1,47 @@
-import { JSX } from "react";
-import clsx from 'clsx';
-import styles from './index.module.scss';
+import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import DeleteIcon from '@mui/icons-material/Clear';
-import { PostSkeleton } from "./PostSkeleton";
 import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
-import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { IconButton } from "@mui/material";
+import clsx from 'clsx';
+import { JSX, ReactNode } from "react";
+import { Link } from "react-router";
+
 import { IUser } from "../../Models/IUser";
 import { UserInfo } from '../UserInfo';
-import { Link } from "react-router";
+
+import styles from './index.module.scss';
+import { PostSkeleton } from "./PostSkeleton";
 
 interface IProps {
     _id: number;
     title: string;
-    createdAt: any;
+    createdAt: string;
     imageUrl: string;
     user: IUser;
-    viewsCount: any;
-    commentsCount: any;
+    viewsCount: number;
+    commentsCount: number;
     tags: string[];
-    children: any;
-    isFullPost: any;
-    isLoading: any;
-    isEditable: any;
+    children: ReactNode;
+    isFullPost: boolean;
+    isLoading: boolean;
+    isEditable: boolean;
 }
 
-
 export function Post ({
- _id,
-  title,
-  createdAt,
-  imageUrl,
-  user,
-  viewsCount,
-  commentsCount,
-  tags,
-  children,
-  isFullPost,
-  isLoading,
-  isEditable,
+    _id,
+    title,
+    createdAt,
+    imageUrl,
+    user,
+    viewsCount,
+    commentsCount,
+    tags,
+    children,
+    isFullPost,
+    isLoading,
+    isEditable,
 }: Partial<IProps>): JSX.Element {
-    
-    
     if (isLoading) {
         return <PostSkeleton />;
     }
@@ -80,22 +79,24 @@ export function Post ({
                     </h2>
                     <ul className={styles.tags}>
                         {tags?.map((name) => (
-                        <li key={name}>
-                            <Link to={`/tag/${name}`}>#{name}</Link>
-                        </li>
+                            <li key={name}>
+                                <Link to={`/tag/${name}`}>
+                                    #{name}
+                                </Link>
+                            </li>
                         ))}
                     </ul>
                     {children && <div className={styles.content}>{children}</div>}
-                        <ul className={styles.postDetails}>
-                            <li>
-                                <EyeIcon />
-                                <span>{viewsCount}</span>
-                            </li>
-                            <li>
-                                <CommentIcon />
-                                <span>{commentsCount}</span>
-                            </li>
-                        </ul>
+                    <ul className={styles.postDetails}>
+                        <li>
+                            <EyeIcon />
+                            <span>{viewsCount}</span>
+                        </li>
+                        <li>
+                            <CommentIcon />
+                            <span>{commentsCount}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

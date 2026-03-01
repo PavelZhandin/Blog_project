@@ -3,8 +3,7 @@ export interface IUser {
     avatarUrl: string | undefined;
 }
 
-
-export interface IComment { 
+export interface IComment {
     user: IUser,
     text: string
 }

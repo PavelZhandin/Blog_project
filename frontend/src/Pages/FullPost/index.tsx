@@ -1,10 +1,12 @@
 import { JSX } from 'react';
-import { Post } from '../../Components/Post';
+
 import { AddComment } from "../../Components/AddComment";
 import { CommentsBlock } from '../../Components/CommentsBlock';
+import { Post } from '../../Components/Post';
 
 export function FullPost(): JSX.Element {
-  return <>
+    return (
+        <>
             <Post
                 _id={1}
                 title="Roast the code #1 | Rock Paper Scissors"
@@ -14,7 +16,7 @@ export function FullPost(): JSX.Element {
                         "https://res.cloudinary.com/practicaldev/image/fetch/s--uigxYVRB--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
                     fullName: "Keff",
                 }}
-                createdAt={"12 июня 2022 г."}
+                createdAt="12 июня 2022 г."
                 viewsCount={150}
                 commentsCount={3}
                 tags={["react", "fun", "typescript"]}
@@ -30,24 +32,25 @@ export function FullPost(): JSX.Element {
             </Post>
             <CommentsBlock
                 items={[
-                {
-                    user: {
-                    fullName: "Вася Пупкин",
-                    avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
+                    {
+                        user: {
+                            fullName: "Вася Пупкин",
+                            avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
+                        },
+                        text: "Это тестовый комментарий 555555",
                     },
-                    text: "Это тестовый комментарий 555555",
-                },
-                {
-                    user: {
-                    fullName: "Иван Иванов",
-                    avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
+                    {
+                        user: {
+                            fullName: "Иван Иванов",
+                            avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
+                        },
+                        text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
                     },
-                    text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
-                },
                 ]}
                 isLoading={false}
             >
                 <AddComment />
             </CommentsBlock>
-    </>;
+        </>
+    );
 }

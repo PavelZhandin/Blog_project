@@ -1,6 +1,7 @@
 import { Paper, Typography } from "@mui/material";
-import styles from "./SideBlock.module.scss";
 import { JSX, ReactNode } from "react";
+
+import styles from "./SideBlock.module.scss";
 
 interface IProps {
     title: string;
@@ -15,5 +16,5 @@ export function SideBlock ({ title, children }: IProps): JSX.Element {
             </Typography>
             {children}
         </Paper>
-    )
+    );
 }

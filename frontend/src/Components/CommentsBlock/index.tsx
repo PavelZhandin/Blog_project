@@ -1,6 +1,9 @@
-import { Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Skeleton } from "@mui/material";
+import {
+    Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Skeleton
+} from "@mui/material";
 import { Fragment, JSX, ReactNode } from "react";
-import { IComment, IUser } from "../../Models/IUser";
+
+import { IComment } from "../../Models/IUser";
 import { SideBlock } from "../SideBlock";
 
 interface IProps {
@@ -13,30 +16,26 @@ export function CommentsBlock ({items, children, isLoading = true }: IProps): JS
     return (
         <SideBlock title="">
             <List>
-                {(isLoading ? [...Array(5)] : items || []).map((comment, index)=>{
-                    return (
-                        <Fragment key={ index }>
-                            <ListItem alignItems="flex-start">
-                                <ListItemAvatar>
-                                    {isLoading ? (
-                                        <Skeleton variant="circular" width={40} height={40} />
-                                    ) : <Avatar alt={ comment?.user.fullName} src= { comment?.user.avatarUrl } /> }
-                                </ListItemAvatar>
+                {(isLoading ? [...Array(5)] : items || []).map((comment, index) => (
+                    <Fragment key={index}>
+                        <ListItem alignItems="flex-start">
+                            <ListItemAvatar>
                                 {isLoading ? (
-                                    <div style={{ display: 'flex', flexDirection: "column" }}>
-
-                                    </div>
-                                ) : (
-                                    <ListItemText
-                                        primary={ comment?.user?.fullName }
-                                        secondary={ comment?.text }
-                                    />
-                                )}
-                            </ListItem>
-                            <Divider variant="inset" component="li" />
-                        </Fragment>
-                    )
-                })}
+                                    <Skeleton variant="circular" width={40} height={40} />
+                                ) : <Avatar alt={comment?.user.fullName} src={comment?.user.avatarUrl} /> }
+                            </ListItemAvatar>
+                            {isLoading ? (
+                                <div style={{ display: 'flex', flexDirection: "column" }} />
+                            ) : (
+                                <ListItemText
+                                    primary={comment?.user?.fullName}
+                                    secondary={comment?.text}
+                                />
+                            )}
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </Fragment>
+                ))}
             </List>
             {children}
         </SideBlock>

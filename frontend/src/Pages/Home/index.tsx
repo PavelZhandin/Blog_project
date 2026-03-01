@@ -1,11 +1,20 @@
 import { Grid, Tab, Tabs } from "@mui/material";
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
+
 import { CommentsBlock } from "../../Components/CommentsBlock";
-import { COMMENT_ITEMS } from "../../mockData/CommentItems";
 import { Post } from "../../Components/Post";
 import { TagsBlock } from "../../Components/TagsBlock";
+import { COMMENT_ITEMS } from "../../mockData/CommentItems";
+import { useAppDispatch } from "../../redux/hooks";
+import { fetchPosts } from "../../redux/slices/posts";
 
 export function Home (): JSX.Element {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(fetchPosts());
+    }, [dispatch]);
+
     return (
         <>
             <Tabs style={{ marginBottom: 15 }} value={0}>
@@ -24,9 +33,9 @@ export function Home (): JSX.Element {
                                 avatarUrl: '',
                                 fullName: "Keff"
                             }}
-                            createdAt={'12 июня 2022 г.'}
-                            viewsCount={ 150 }
-                            commentsCount={ 3 }
+                            createdAt="12 июня 2022 г."
+                            viewsCount={150}
+                            commentsCount={3}
                             tags={['react', 'fun', 'typescript']}
                             isEditable
                         />
@@ -34,9 +43,9 @@ export function Home (): JSX.Element {
                 </Grid>
                 <Grid size={4}>
                     <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} />
-                    <CommentsBlock items={COMMENT_ITEMS} isLoading={ false } />
+                    <CommentsBlock items={COMMENT_ITEMS} isLoading={false} />
                 </Grid>
-        
+
             </Grid>
         </>
     );
