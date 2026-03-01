@@ -4,6 +4,7 @@ import multer from 'multer';
 import { registerValidator, loginValidation, postCreateValidation } from './validations.js';
 import controllers from './controllers/index.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
+import cors from 'cors';
 
 const uri = "mongodb://localhost:27017/blogDB";
 
@@ -25,6 +26,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(express.json());
+app.use(cors());
 app.use('/uploads', express.static('uploads'))
 
 app.get('/', (_, res)=> {

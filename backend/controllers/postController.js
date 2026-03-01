@@ -9,7 +9,7 @@ export async function getAll (req, res) {
                 message:"Посты не найдены",
             })
         } else {
-            res.json(posts)
+            res.status(200).json(posts);
         }
 
     } catch (err) {
