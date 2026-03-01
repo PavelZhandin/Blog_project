@@ -13,16 +13,16 @@ export function Home (): JSX.Element {
                 <Tab label="Популярные" />
             </Tabs>
             <Grid container spacing={4}>
-                <Grid columns={{ xs: 8 }}>
+                <Grid size={8}>
                     {[...Array(5)].map((index) => (
                         <Post
-                            title="Roast the #code"
-                            imageUrl=""
                             key={index}
-                            id={index}
+                            _id={index}
+                            title="Roast the #code"
+                            imageUrl="https://media.istockphoto.com/id/1058262630/vector/creation-responsive-internet-website-for-multiple-platforms-building-mobile-interface-on.jpg?s=1024x1024&w=is&k=20&c=Qrko2b9M1HK7M_5L2CYdj_iNG2xBt6OMJprLd3mmUOM="
                             user={{
                                 avatarUrl: '',
-                                fullName: "FullName 1"
+                                fullName: "Keff"
                             }}
                             createdAt={'12 июня 2022 г.'}
                             viewsCount={ 150 }
@@ -32,7 +32,7 @@ export function Home (): JSX.Element {
                         />
                     ))}
                 </Grid>
-                <Grid columns={{ xs: 12 }}>
+                <Grid size={4}>
                     <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} />
                     <CommentsBlock items={COMMENT_ITEMS} isLoading={ false } />
                 </Grid>
