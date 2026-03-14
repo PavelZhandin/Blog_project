@@ -45,6 +45,7 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
     });
 });
 
+app.get('/tags', controllers.PostController.getLastTags);
 app.get('/posts', controllers.PostController.getAll);
 app.get('/posts/:id', controllers.PostController.getById);
 app.post('/posts/create', checkAuth, postCreateValidation, handleValidationErrors, controllers.PostController.createPost);

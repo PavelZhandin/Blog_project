@@ -1,11 +1,29 @@
 import Post from '../models/Post.js';
 
-export async function getAll (req, res) {
+export async function getLastTags (_, res) {
+    try {
+        const posts = await Post.find().limit(5).exec();
+
+        const tags = posts.map(({ tags }) => tags).flat().slice(0, 5);
+
+        if (!tags) {
+            res.status(200).json({
+                message:"Тэги не найдены",
+            })
+        } else {
+            res.status(200).json(tags);
+        }
+
+    } catch (err) {
+        console.log('Ошибка получения списка постов:', err)
+    }
+}
+export async function getAll (_, res) {
     try {
         const posts = await Post.find().populate({ path: 'user', select: ["fullName", "_id"]}).exec();
 
         if (!posts) {
-            res.json({
+            res.status(200).json({
                 message:"Посты не найдены",
             })
         } else {
