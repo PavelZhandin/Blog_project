@@ -1,33 +1,52 @@
-import { JSX } from 'react';
-
+import { JSX, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { AddComment } from "../../Components/AddComment";
 import { CommentsBlock } from '../../Components/CommentsBlock';
 import { Post } from '../../Components/Post';
+import axios from '../../axios';
+import { IPost } from '../../Models/IPost';
 
 export function FullPost(): JSX.Element {
+    const { id } = useParams();
+    const [isLoading, setLoading] = useState(true);
+    const [postData, setPostData]= useState<IPost>();
+    
+
+    useEffect(()=>{
+        if (id) {
+            axios.get<IPost | undefined>(`/posts/${id}`)
+                .then((data) => {
+                    console.log(data.data);
+                    setPostData(data.data);
+                })
+                .catch((error) =>{
+                    console.warn(error);
+                
+                    alert('Ошибка при получении статьи');
+                }).finally(()=> setLoading(false));
+        }
+
+    }, [id]);
+
+    if (isLoading) {
+        return <Post isLoading  isFullPost/>;
+    }
+
     return (
         <>
             <Post
-                _id={1}
-                title="Roast the code #1 | Rock Paper Scissors"
-                imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
-                user={{
-                    avatarUrl:
-                        "https://res.cloudinary.com/practicaldev/image/fetch/s--uigxYVRB--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
-                    fullName: "Keff",
-                }}
-                createdAt="12 июня 2022 г."
-                viewsCount={150}
-                commentsCount={3}
-                tags={["react", "fun", "typescript"]}
+                _id={ postData?._id }
+                title={ postData?.text }
+                imageUrl={postData?.imageUrl}
+                user={ postData?.user }
+                createdAt={postData?.createdAt}
+                viewsCount={ postData?.viewsCount }
+                commentsCount={postData?.viewsCount}
+                tags={ postData?.tags }
                 isFullPost
             >
                 <p>
-                    Hey there! 👋 I'm starting a new series called "Roast the Code", where
-                    I will share some code, and let YOU roast and improve it. There's not
-                    much more to it, just be polite and constructive, this is an exercise
-                    so we can all learn together. Now then, head over to the repo and
-                    roast as hard as you can!!
+                    { postData?.text }
                 </p>
             </Post>
             <CommentsBlock

@@ -17,6 +17,7 @@ export function TagsBlock ({ items, isLoading = true }: IProps): JSX.Element {
             <List>
                 {(isLoading ? [...Array(5)] : items).map((name, i) => (
                     <a
+                        key={`${i}_${name}`}
                         style={{ textDecoration: "none", color: "black" }}
                         href={`/tags/${name}`}
                     >

@@ -17,7 +17,7 @@ export function CommentsBlock ({items, children, isLoading = true }: IProps): JS
         <SideBlock title="">
             <List>
                 {(isLoading ? [...Array(5)] : items || []).map((comment, index) => (
-                    <Fragment key={index}>
+                    <Fragment key={ index }>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 {isLoading ? (

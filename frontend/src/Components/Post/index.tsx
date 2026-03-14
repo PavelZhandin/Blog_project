@@ -14,7 +14,7 @@ import styles from './index.module.scss';
 import { PostSkeleton } from "./PostSkeleton";
 
 interface IProps {
-    _id: number;
+    _id: string;
     title: string;
     createdAt: string;
     imageUrl: string;
@@ -63,13 +63,13 @@ export function Post ({
                 </div>
             )}
 
-            {imageUrl && (
+            {imageUrl ? (
                 <img
                     className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-                    src={imageUrl}
-                    alt={title}
+                    src={ imageUrl }
+                    alt={ title }
                 />
-            )}
+            ): null}
 
             <div className={styles.wrapper}>
                 {user && <UserInfo {...user} additionalText={createdAt} />}

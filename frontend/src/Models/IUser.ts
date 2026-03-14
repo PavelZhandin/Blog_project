@@ -1,6 +1,6 @@
 export interface IUser {
     fullName: string;
-    avatarUrl: string | undefined;
+    avatarUrl?: string;
 }
 
 export interface IComment {
