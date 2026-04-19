@@ -15,8 +15,6 @@ export function Home (): JSX.Element {
     const isPostsLoading = useAppSelector(selectIsPostsLoading);
     const isTagListLoading = useAppSelector(selectIsTagListLoading);
 
-    console.log(postList);
-
     useEffect(() => {
         dispatch(fetchPosts());
         dispatch(fetchTags());

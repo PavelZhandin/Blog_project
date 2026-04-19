@@ -3,11 +3,17 @@ import { JSX } from 'react';
 import { Link } from 'react-router';
 
 import styles from './Header.module.scss';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { fetchLogout, selectIsAuthSuccess } from '../../redux/slices/auth';
 
 export function Header (): JSX.Element {
-    const isAuth = false;
+    const isAuth = useAppSelector(selectIsAuthSuccess);
+    const dispatch = useAppDispatch();
 
-    const onClickLogout = () => {};
+    const onClickLogout = () => {
+        dispatch(fetchLogout());
+        window.localStorage.removeItem('userToken');
+    };
 
     return (
         <div className={styles.root}>
