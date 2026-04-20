@@ -3,15 +3,14 @@ import styles from "./Login.module.scss";
 import { JSX, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ILoginData } from '../../Models/Auth';
-import { useDispatch } from 'react-redux';
-import { fetchAuth, selectIsAuthSuccess } from '../../redux/slices/auth';
+import { fetchAuth, selectIsAuthorized } from '../../redux/slices/auth';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router';
 
 export function Login (): JSX.Element {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const isAuth = useAppSelector(selectIsAuthSuccess);
+    const isAuth = useAppSelector(selectIsAuthorized);
     const { register, handleSubmit, formState: {errors, isValid } } = useForm({
         defaultValues: {
             email: 'test@gmail.com',
@@ -37,9 +36,8 @@ export function Login (): JSX.Element {
             } else {
                 alert('Не удалось залогиниться');
             }
-            console.log(data);
         } catch (err){
-            console.log(err);
+            console.warn(err);
         }
     };
 

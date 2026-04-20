@@ -5,13 +5,15 @@ import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { IconButton } from "@mui/material";
 import clsx from 'clsx';
 import { JSX, ReactNode } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { IUser } from "../../Models/IUser";
 import { UserInfo } from '../UserInfo';
 
 import styles from './index.module.scss';
 import { PostSkeleton } from "./PostSkeleton";
+import { useAppDispatch } from '../../redux/hooks';
+import { fetchRemovePost } from '../../redux/slices/posts';
 
 interface IProps {
     _id: string;
@@ -42,11 +44,20 @@ export function Post ({
     isLoading,
     isEditable,
 }: Partial<IProps>): JSX.Element {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     if (isLoading) {
         return <PostSkeleton />;
     }
 
-    const onClickRemove = () => {};
+    const onClickRemove = () => {
+        _id && dispatch(fetchRemovePost(_id));
+    };
+
+    const handleClickEdit = () => {
+        _id && navigate(`post/${_id}/edit`);
+    };
 
     return (
         <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
@@ -54,10 +65,10 @@ export function Post ({
                 <div className={styles.editButtons}>
                     <Link to={`/posts/${_id}/edit`}>
                         <IconButton color="primary">
-                            <EditIcon />
+                            <EditIcon onClick = { handleClickEdit } />
                         </IconButton>
                     </Link>
-                    <IconButton onClick={onClickRemove} color="secondary">
+                    <IconButton onClick={ onClickRemove } color="secondary">
                         <DeleteIcon />
                     </IconButton>
                 </div>

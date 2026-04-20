@@ -10,11 +10,22 @@ export const fetchPosts = createAsyncThunk<IPost[]>('posts/fetchPosts', async ()
 
     return data;
 });
+export const fetchPostById = createAsyncThunk<IPost, string>(`posts/fetchOneById`, async (id: string) => {
+    const { data } = await axios.get(`/posts/${id}`);
+
+    return data;
+});
 
 export const fetchTags = createAsyncThunk<string[]>('posts/fetchTags', async () => {
     const { data } = await axios.get('/tags');
 
     return data;
+});
+
+export const fetchRemovePost = createAsyncThunk<string, string>('posts/fetchRemovePost', async (postId: string) => {
+    await axios.delete<IPost>(`/posts/${postId}`);
+
+    return postId;
 });
 
 
@@ -42,6 +53,7 @@ const initialState: IInitialState = {
 
 export const postsReducer = createReducer(initialState, (builder) => {
     builder
+        // Получение постов.
         .addCase(fetchPosts.pending, (state) => {
             state.postList.status    = EReduxStatus.LOADING;
         })
@@ -53,6 +65,8 @@ export const postsReducer = createReducer(initialState, (builder) => {
             state.postList.items = [];
             state.postList.status = EReduxStatus.ERROR;
         })
+
+        // Получение тэгов.
         .addCase(fetchTags.pending, (state) => {
             state.tagList.status    = EReduxStatus.LOADING;
         })
@@ -63,11 +77,25 @@ export const postsReducer = createReducer(initialState, (builder) => {
         .addCase(fetchTags.rejected, (state)=> {
             state.tagList.items = [];
             state.tagList.status = EReduxStatus.ERROR;
+        })
+
+        // Удаление постов.
+        .addCase(fetchRemovePost.pending, (state) => {
+            state.postList.status = EReduxStatus.LOADING;
+        })
+
+        .addCase(fetchRemovePost.fulfilled, (state, { payload }) => {
+            state.postList.items = state.postList.items.filter((post) => post._id !== payload);
+            state.postList.status = EReduxStatus.SUCCESS;
+        })
+
+        .addCase(fetchRemovePost.rejected, (state)=> {
+            state.postList.items = [];
+            state.postList.status = EReduxStatus.ERROR;
         });
 
 
 });
-
 
 export function selectPosts ({ posts }: TRootState): IPost[] | undefined {
     return posts.postList.items;

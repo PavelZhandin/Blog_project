@@ -3,6 +3,7 @@ import { EReduxStatus } from "../Enums";
 import axios from '../../axios';
 import { IAuthResponse, ILoginData, IRegisterData } from "../../Models/Auth";
 import { TRootState } from "..";
+import { IUser } from "../../Models/IUser";
 
 interface IInitialState {
     data: IAuthResponse | null;
@@ -26,7 +27,7 @@ export const fetchAuth = createAsyncThunk<IAuthResponse | null, ILoginData>('aut
     return data;
 });
 
-export const fetchAuthMe = createAsyncThunk<IAuthResponse | null>('auth/fetchAuthMe', async () => {
+export const fetchAuthMe = createAsyncThunk<Omit<IUser, 'avatarUrl'>>('auth/fetchAuthMe', async () => {
     const { data } = await axios.get('/auth/me');
 
     return data;
@@ -68,7 +69,7 @@ export const authReducer = createReducer(initialState, (builder) => {
         })
         .addCase(fetchAuthMe.fulfilled, (state, action) => {
             state.status = EReduxStatus.SUCCESS;
-            state.data = action.payload;
+            state.data = { token: window.localStorage.getItem('userToken'), user: action.payload};
         })
         .addCase(fetchAuthMe.rejected, (state) => {
             state.status = EReduxStatus.ERROR;
@@ -81,6 +82,10 @@ export const authReducer = createReducer(initialState, (builder) => {
         });
 });
 
-export function selectIsAuthSuccess (state: TRootState): boolean {
+export function selectIsAuthorized (state: TRootState): boolean {
     return !!state.auth.data;
+}
+
+export function selectAuthData (state: TRootState): IAuthResponse | null {
+    return state.auth.data;
 }

@@ -12,6 +12,6 @@ export interface IRegisterData {
 }
 
 export interface IAuthResponse {
-    user: IUser;
-    token: string;
+    user: Omit<IUser, 'avatarUrl'>
+    token?: string | null;
 }

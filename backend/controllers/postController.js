@@ -38,13 +38,14 @@ export async function getAll (_, res) {
 export async function getById (req, res) {
     try {
         const id = req.params?.id;
+        
         const post = await Post.findOneAndUpdate({
             _id: id,
         }, {
             $inc: { viewsCount: 1 },
         }, {
             returnDocument: 'after',
-        });
+        }).populate('user');
 
         if (!post) {
             return res.status(404).json({
@@ -66,13 +67,13 @@ export async function getById (req, res) {
 export async function deletePost (req, res) {
     try {
         const postId = req.params.id;
-
+        
         await Post.findOneAndDelete({
              _id: postId, 
         })
         .then(doc => {
 
-            if(!doc){
+            if (!doc) {
                 res.json({
                     message: "Статья с указанным id не найдена",
                 })

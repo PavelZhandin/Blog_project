@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { AddComment } from "../../Components/AddComment";
 import { CommentsBlock } from '../../Components/CommentsBlock';
 import { Post } from '../../Components/Post';
+import Markdown from 'react-markdown';
 import axios from '../../axios';
 import { IPost } from '../../Models/IPost';
 
@@ -15,9 +16,8 @@ export function FullPost(): JSX.Element {
     useEffect(()=>{
         if (id) {
             axios.get<IPost | undefined>(`/posts/${id}`)
-                .then((data) => {
-                    console.log(data.data);
-                    setPostData(data.data);
+                .then((res) => {
+                    setPostData(res.data);
                 })
                 .catch((error) =>{
                     console.warn(error);
@@ -29,15 +29,15 @@ export function FullPost(): JSX.Element {
     }, [id]);
 
     if (isLoading) {
-        return <Post isLoading  isFullPost/>;
+        return <Post isLoading isFullPost/>;
     }
 
     return (
         <>
             <Post
                 _id={ postData?._id }
-                title={ postData?.text }
-                imageUrl={postData?.imageUrl}
+                title={ postData?.title }
+                imageUrl={`http://localhost:4444${postData?.imageUrl}`}
                 user={ postData?.user }
                 createdAt={postData?.createdAt}
                 viewsCount={ postData?.viewsCount }
@@ -45,14 +45,15 @@ export function FullPost(): JSX.Element {
                 tags={ postData?.tags }
                 isFullPost
             >
-                <p>
+                <Markdown> 
                     { postData?.text }
-                </p>
+                </Markdown>
             </Post>
             <CommentsBlock
                 items={[
                     {
                         user: {
+                            _id: '111',
                             fullName: "Вася Пупкин",
                             avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
                         },
@@ -60,6 +61,7 @@ export function FullPost(): JSX.Element {
                     },
                     {
                         user: {
+                            _id: '222',
                             fullName: "Иван Иванов",
                             avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
                         },

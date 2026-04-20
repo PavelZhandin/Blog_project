@@ -1,6 +1,7 @@
 export const COMMENT_ITEMS = [
     {
         user: {
+            _id: '111',
             fullName: 'Vasya Pupkin',
             avatarUrl: '',
         },
@@ -8,6 +9,7 @@ export const COMMENT_ITEMS = [
     },
     {
         user: {
+            _id: '222',
             fullName: 'Ivanov Ivan',
             avatarUrl: '',
         },

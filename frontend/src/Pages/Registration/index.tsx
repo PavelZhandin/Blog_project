@@ -30,8 +30,8 @@ export function Registration(): JSX.Element {
             } else {
                 alert('Не удалось зарегистрироваться');
             }
-            console.log(data);
-        } catch (err){
+        } catch (err) {
+            console.warn(err);
             alert('Не удалось зарегистрироваться');
         }
     };
